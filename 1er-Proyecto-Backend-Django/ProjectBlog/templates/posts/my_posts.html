@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} 
+    Posts
+{% endblock %}
+
+
+{% block content %} 
+<main>
+    <h1 class="titulo">MY POSTS</h1>
+    <div class="search">
+        {% if user.is_authenticated %}
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active bg-success text-ligth btn-create-post" aria-current="page" href="/posts/create">New Post</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+    <div class="container-card">
+
+        {% for post in posts %}
+            <div class="card mb-3 card-blog">
+                <img src="{{ post.img }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-category">{{ post.category.description }}</p>
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ post.created_date }}</small></p>
+                </div>
+                <ul class="list-group list-group-flush card-list">
+                    <li class="list-group-item card-list-item">
+                        
+                        <div class="card-item-author">
+                            <img class="img-fluid rounded-circle card-author" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
+                            <p class="author">{{ post.author.first_name }} {{ post.author.last_name }}</p>
+                        </div>
+                        <a href="/posts/{{ post.id }}" class="btn btn-success">View more </a>
+                    </li>
+                </ul>
+              </div>
+        {% endfor %}
+    </div>
+
+
+    
+
+</main>
+{% endblock %}

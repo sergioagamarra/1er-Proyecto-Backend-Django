@@ -9,6 +9,7 @@ urlpatterns = [
     path('create', views.create_post, name='post_create'),
     path('search', views.search_post, name='post_search'),
     path('<int:id>', views.post, name='post_detail'),
+    path('my-posts/<int:id>', views.my_posts, name='my_posts'),
     path('comment/<int:id>', views.create_comment, name='comment_create'),
     path('edit/<int:id>', views.edit_post, name='post_edit'),
     path('category/<int:id>', views.category_post, name='post_category'),

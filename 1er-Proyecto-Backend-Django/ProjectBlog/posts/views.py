@@ -32,6 +32,11 @@ def post(request, id):
         'cant_comments': len(comments)
         })
 
+def my_posts(request, id):
+    my_posts = Post.objects.filter(author=id).order_by("-created_date", "-id")
+    return render(request, 'posts/my_posts.html', {
+        'posts': my_posts
+        })
 
 def create_post(request):
     if request.method == "POST":

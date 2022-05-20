@@ -6,23 +6,39 @@
             <a href="/posts/" class="navbar-brand logo">
                 <img class="logo" src="{% static 'img/logo-blog.png' %}" alt="">
             </a>
+            {% if user.is_authenticated %}
             <ul class="nav nav-pills">
-                {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="btn btn-outline-success me-md-2" href="#">Perfil</a>
+                    <a class="nav-link text-success me-md-2" href="/posts">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success me-md-2" href="/posts/my-posts/{{ user.id }}">My posts</a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link text-dark me-md-2" href="#">{{ user.first_name }} {{ user.last_name }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active bg-success text-ligth" aria-current="page" href="/auth/logout">Log out</a>
                 </li>
+            </ul>
                 {% else %}
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link text-success me-md-2" href="/posts">Home</a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills">
                 <li class="nav-item">
                     <a class="btn btn-outline-success me-md-2" href="/auth/signup">Sign up</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active bg-success text-ligth" aria-current="page" href="/auth/login">Login</a>
                 </li>
-                {% endif %}    
             </ul>
+            {% endif %}  
+            
         </div>
       </nav>
 </header>
