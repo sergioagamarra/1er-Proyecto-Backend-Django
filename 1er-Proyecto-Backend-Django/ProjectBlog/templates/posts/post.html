@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} 
+    Post
+{% endblock %}
+
+
+{% block content %} 
+<main>
+    <div class="container-card-post">
+            <div class="card mb-3 card-blog-post">
+                <div class="card-body card-post">
+                    <h1 class="card-title">{{ post.title }}</h1>
+                    <p class="card-text">{{ post.description }}</p>
+                </div>
+                <img src="{{ post.img }}" class="card-img-butom" alt="...">
+                <div class="card-body">
+                    <p class="card-category">{{ post.category.description }}</p>
+                    <ul class="list-group list-group-flush card-list">
+                        <li class="card-list-item">
+                            <div class="card-item-author">
+                                <img class="img-fluid rounded-circle card-author" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
+                                <p class="author">{{ post.author.first_name }} {{ post.author.last_name }} </p>
+                                <p class="card-text"><small class="text-muted"> - {{ post.created_date }}</small></p>
+                            </div>
+                        </li>
+                    </ul>
+                   
+                    <p class="card-text">{{ post.content }}</p>
+
+                    {% if user.is_authenticated and user == post.author %}
+                    <ul class="d-flex nav nav-pills mb-3 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active bg-success text-ligth m-1" aria-current="page" href="/posts/edit/{{ post.id }}">Edit Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active bg-danger text-ligth m-1" aria-current="page" href="/posts/delete/{{ post.id }}">Delete Post</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <form action="/posts/comment/{{ post.id }}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Add Comment</label>
+                            <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <div class="d-flex mb-3 justify-content-end">
+                                <button class="btn btn-success btn-comment mt-3" type="submit">Comment</button>
+                            </div>
+                          </div>
+                    </form>
+                    {% endif %}
+                    
+                    <ul class="list-group list-group-flush card-list">
+                        <li class="list-group-item card-list-item">
+                            <h3 class="card-title"><small class="text-muted"> {{ cant_comments }} Comments</small></h3>
+                        </li>
+                        {% for comment in comments %}
+                        <li class="list-group-item card-list-post">
+                            <div class="card-item-author">
+                                <img class="img-fluid rounded-circle card-comment" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
+                                <p class="author">{{ comment.user.first_name }} {{ comment.user.last_name }} </p>
+                                <p class="card-text card-date"><small class="text-muted"> - {{ comment.created_date }}</small></p>
+                                {% if user.is_authenticated and user == comment.user %}
+                                    <a class="card-comment-delete" href="/posts/delete-comment/{{ comment.id }}"> <i class="fa fa-trash"></i></a>
+                                {% endif %}
+                            </div>
+                            <p class="card-text"><small class="text-muted">{{ comment.content }}</small></p>
+                            
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+              </div>
+    </div>
+</main>
+<script src="{% static 'js/posts.js' %}"></script>
+{% endblock %}
